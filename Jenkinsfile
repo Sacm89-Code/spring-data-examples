@@ -31,8 +31,8 @@ pipeline {
 					List testArray = ["web/example/pom.xml", "web/projection/pom.xml", "web/querydsl/pom.xml"]
 					
 					withMaven (maven: 'maven-3.6.3') {
-						testArray.each { i ->
-							sh 'mvn clean install -f ${i}'
+						for (i in testArray) {
+							sh 'mvn clean install -f i'
 						}
 					}
 				}
