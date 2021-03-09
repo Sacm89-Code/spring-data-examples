@@ -75,8 +75,8 @@ pipeline {
 		stage("Quality Gate") {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {
-                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-                  // true = set pipeline to UNSTABLE, false = don't
+					// Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+					// true = set pipeline to UNSTABLE, false = don't
                     // Requires SonarQube Scanner for Jenkins 2.7+
                     waitForQualityGate abortPipeline: true
                 }
@@ -91,7 +91,13 @@ pipeline {
 					for (proyect2 in proyectsArray2) {
 					
 						archivo = "web/" + proyect2 + "/pom.xml"
-						archivoTest =  "web/" + proyect2 + "/target/*.${pom.packaging}"
+						archivoTest =  "web/" + proyect2 + "/target/*" + ${pom.packaging}
+						echo "-----------------------------------"
+						println archivo
+						println proyect
+						echo "-----------------------------------"
+						
+						
 						pom = readMavenPom file: archivo;
 						filesByGlob = findFiles(glob: archivoTest);
 						echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
