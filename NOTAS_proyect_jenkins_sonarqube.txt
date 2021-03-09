@@ -1,0 +1,56 @@
+COSAS QUE TENEMOS QUE HACER:
+**** - una vez instalado el Sonar, tenéis que configurar un Quality Profile y un Quality Gate ****
+**** - también instalad un Jenkins en local y conectar el Jenkins con el sonar, para luego hacer
+  una pipeline que compile un proyecto y mande analizar el código en el sonar ****
+**** - Crear credenciales de usuario y contraseña para sonarqube ****
+  
+- Hacer que se pare jenkins cuando sonarqube, no cumple un quality gate
+- Instalar nexus y subir los artefactos allí
+
+Userjenkins --> Token (00e696f72d4d92cb72013aa98d3d590bececb7ef)
+Par lanzar el sonar
+sonar:sonar -f web/pom.xml
+sonar:sonar -f elasticsearch/pom.xml
+sonar:sonar -f mongodb/pom.xml
+sonar:sonar -f rest/pom.xml
+
+Para lanzar cada proyecto y coja los test
+
+--------------- WEB -------------------------
+clean install -f web/example/pom.xml
+clean install -f web/projection/pom.xml
+clean install -f web/querydsl/pom.xml
+
+------------- ELASTICSEARCH -----------------
+clean install -f elasticsearch/example/pom.xml
+clean install -f elasticsearch/reactive/pom.xml
+clean install -f elasticsearch/rest/pom.xml
+
+------------- MONGODB -----------------
+clean install -f mongodb/aggregation/pom.xml
+clean install -f mongodb/change-streams/pom.xml		--> quitar
+clean install -f mongodb/fluent-api/pom.xml
+clean install -f mongodb/geo-json/pom.xml
+clean install -f mongodb/gridfs/pom.xml
+clean install -f mongodb/kotlin/pom.xml
+clean install -f mongodb/example/pom.xml
+clean install -f mongodb/java8/pom.xml
+clean install -f mongodb/query-by-example/pom.xml
+clean install -f mongodb/querydsl/pom.xml
+clean install -f mongodb/reactive/pom.xml
+clean install -f mongodb/security/pom.xml
+clean install -f mongodb/util/pom.xml 				--> quitar
+clean install -f mongodb/repository-metrics/pom.xml
+clean install -f mongodb/schema-validation/pom.xml	--> quitar
+clean install -f mongodb/text-search/pom.xml
+clean install -f mongodb/transactions/pom.xml		--> quitar.
+
+--------------- REST ------------------- 
+clean install -f rest/headers/pom.xml
+clean install -f rest/projections/pom.xml
+clean install -f rest/multi-store/pom.xml
+clean install -f rest/security/pom.xml
+clean install -f rest/starbucks/pom.xml 
+clean install -f rest/uri-customization/pom.xml
+
+
