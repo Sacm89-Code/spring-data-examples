@@ -32,7 +32,7 @@ pipeline {
 					
 					withMaven (maven: 'maven-3.6.3') {
 						for (proyect in proyectsArray) {
-							println i
+							println proyect
 							sh 'mvn clean install -f ' + proyect
 						}
 					}
