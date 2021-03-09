@@ -26,12 +26,14 @@ pipeline {
 		// Compilamos el proyecto y almacenamos los test unitarios y de integracion
        	stage('Build') {
         	steps {
+				script {
 			
-				List testArray = ["web/example/pom.xml", "web/projection/pom.xml", "web/querydsl/pom.xml"]
-				
-				withMaven (maven: 'maven-3.6.3') {
-					testArray..each { i ->
-						sh 'mvn clean install -f ${i}'
+					List testArray = ["web/example/pom.xml", "web/projection/pom.xml", "web/querydsl/pom.xml"]
+					
+					withMaven (maven: 'maven-3.6.3') {
+						testArray.each { i ->
+							sh 'mvn clean install -f ${i}'
+						}
 					}
 				}
     		}
