@@ -33,7 +33,7 @@ pipeline {
 					withMaven (maven: 'maven-3.6.3') {
 						for (i in testArray) {
 							println i
-							sh 'mvn clean install -f ${i}'
+							sh 'mvn clean install -f ' + i
 						}
 					}
 				}
