@@ -1,10 +1,25 @@
 #!/usr/bin/env groovy
 pipeline {
     agent any
+	
+	environment {
+        // Puede ser nexus3 o nexus2
+        NEXUS_VERSION = "nexus3"
+        // Puede ser http o https
+        NEXUS_PROTOCOL = "http"
+        // Dónde se ejecuta tu Nexus
+        //NEXUS_URL = "172.22.0.2:9084"
+        NEXUS_URL = "192.168.1.57:9084"
+        // Repositorio donde subiremos el artefacto
+        NEXUS_REPOSITORY = "springs-data-examples-elasticsearch/"
+        // Identificación de credencial de Jenkins para autenticarse en Nexus OSS
+        NEXUS_CREDENTIAL_ID = "nexusCredenciales"
+    }
+	
     stages {
         stage('Setup') {
             steps {
-                git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'master'
+                git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'elasticsearch'
             }
         } 
 		
@@ -12,19 +27,13 @@ pipeline {
        	stage('Build') {
         	steps {
 				withMaven (maven: 'maven-3.6.3') {
-					sh 'mvn clean install -f web/pom.xml'
 					sh 'mvn clean install -f elasticsearch/pom.xml'
-					sh 'mvn clean install -f mongodb/pom.xml'
-					sh 'mvn clean install -f rest/pom.xml'
 				}
     		}
 			
 			post {
                 always {
-                    junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
 					junit 'elasticsearch/example/target/surefire-reports/*.xml, elasticsearch/reactive/target/surefire-reports/*.xml, elasticsearch/rest/target/surefire-reports/*.xml'
-                    junit 'mongodb/example/target/surefire-reports/*.xml, mongodb/projection/target/surefire-reports/*.xml, mongodb/querydsl/target/surefire-reports/*.xml'
-                    junit 'rest/example/target/surefire-reports/*.xml, rest/headers/target/surefire-reports/*.xml, rest/multi-store/target/surefire-reports/*.xml, rest/projections/target/surefire-reports/*.xml, rest/security/target/surefire-reports/*.xml, rest/starbucks/target/surefire-reports/*.xml, rest/uri-customization/target/surefire-reports/*.xml'
                 }
             }
         }
@@ -34,11 +43,8 @@ pipeline {
 			// Lanzamos los mutation test
 			
 			steps {				
-				withMaven (maven: 'maven-3.6.3') {		
-					sh 'mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml'	
-					sh 'mvn org.pitest:pitest-maven:mutationCoverage -f elasticsearch/pom.xml'
-					sh 'mvn org.pitest:pitest-maven:mutationCoverage -f mongodb/pom.xml'
-					sh 'mvn org.pitest:pitest-maven:mutationCoverage -f rest/pom.xml'				
+				withMaven (maven: 'maven-3.6.3') {	
+					sh 'mvn org.pitest:pitest-maven:mutationCoverage -f elasticsearch/pom.xml'				
 				}
 			}
 			
@@ -47,43 +53,135 @@ pipeline {
         // Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
         stage('SonarQube analysis') {
         	steps {
-		    	withSonarQubeEnv(credentialsId: 'aee1ab08-f0d6-4abe-9861-89e3c97916ce', installationName: 'local') {
+		    	withSonarQubeEnv(credentialsId: 'sonarQubeCredenciales', installationName: 'local') {
 					withMaven (maven: 'maven-3.6.3') {
-						sh 'mvn sonar:sonar -f web/pom.xml \
-						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.junit.reportPaths=target/surefire-reports\
-						-Dsonar.login=admin \
-						-Dsonar.password=sinensia1'
 						sh 'mvn sonar:sonar -f elasticsearch/pom.xml \
 						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.junit.reportPaths=target/surefire-reports\
-						-Dsonar.login=admin \
-						-Dsonar.password=sinensia1'
-						sh 'mvn sonar:sonar -f mongodb/pom.xml \
-						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.junit.reportPaths=target/surefire-reports\
-						-Dsonar.login=admin \
-						-Dsonar.password=sinensia1'
-						sh 'mvn sonar:sonar -f rest/pom.xml \
-						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.junit.reportPaths=target/surefire-reports\
-						-Dsonar.login=admin \
-						-Dsonar.password=sinensia1'
+						-Dsonar.junit.reportPaths=target/surefire-reports'
 					}
 				}
 			}
 		}
 		
 		// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
-		//stage("Quality Gate") {
-        //    steps {
-        //        timeout(time: 1, unit: 'HOURS') {
+		stage("Quality Gate") {
+            steps {
+                timeout(time: 5, unit: 'MINUTES') {
                     // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
                     // true = set pipeline to UNSTABLE, false = don't
                     // Requires SonarQube Scanner for Jenkins 2.7+
-        //            waitForQualityGate abortPipeline: true
-        //        }
-        //    }
-        //}
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+		
+		stage("Nexus Example") {
+            steps {
+                script {
+                    pom = readMavenPom file: "elasticsearch/example/pom.xml";
+                    filesByGlob = findFiles(glob: "elasticsearch/example/target/*.${pom.packaging}");
+                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                    artifactPath = filesByGlob[0].path;
+                    artifactExists = fileExists artifactPath;
+                    if(artifactExists) {
+                        echo "*** File: ${artifactPath}, group: ${pom.parent.groupId}, packaging: ${pom.packaging}, version ${pom.parent.version}";
+                        nexusArtifactUploader(
+                            nexusVersion: NEXUS_VERSION,
+                            protocol: NEXUS_PROTOCOL,
+                            nexusUrl: NEXUS_URL,
+                            groupId: pom.groupId,
+                            version: pom.parent.version,
+                            repository: NEXUS_REPOSITORY,
+                            credentialsId: NEXUS_CREDENTIAL_ID,
+                            artifacts: [
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: artifactPath,
+                                type: pom.packaging],
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: "pom.xml",
+                                type: "pom"]
+                            ]
+                        );
+                    } else {
+                        error "*** File: ${artifactPath}, could not be found";
+                    }
+                }
+            }
+        }
+		
+		stage("Nexus Reactive") {
+            steps {
+                script {
+                    pom = readMavenPom file: "elasticsearch/reactive/pom.xml";
+                    filesByGlob = findFiles(glob: "elasticsearch/reactive/target/*.${pom.packaging}");
+                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                    artifactPath = filesByGlob[0].path;
+                    artifactExists = fileExists artifactPath;
+                    if(artifactExists) {
+                        echo "*** File: ${artifactPath}, group: ${pom.parent.groupId}, packaging: ${pom.packaging}, version ${pom.parent.version}";
+                        nexusArtifactUploader(
+                            nexusVersion: NEXUS_VERSION,
+                            protocol: NEXUS_PROTOCOL,
+                            nexusUrl: NEXUS_URL,
+                            groupId: pom.groupId,
+                            version: pom.parent.version,
+                            repository: NEXUS_REPOSITORY,
+                            credentialsId: NEXUS_CREDENTIAL_ID,
+                            artifacts: [
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: artifactPath,
+                                type: pom.packaging],
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: "pom.xml",
+                                type: "pom"]
+                            ]
+                        );
+                    } else {
+                        error "*** File: ${artifactPath}, could not be found";
+                    }
+                }
+            }
+        }
+		
+		stage("Nexus Rest") {
+            steps {
+                script {
+                    pom = readMavenPom file: "elasticsearch/rest/pom.xml";
+                    filesByGlob = findFiles(glob: "elasticsearch/rest/target/*.${pom.packaging}");
+                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                    artifactPath = filesByGlob[0].path;
+                    artifactExists = fileExists artifactPath;
+                    if(artifactExists) {
+                        echo "*** File: ${artifactPath}, group: ${pom.parent.groupId}, packaging: ${pom.packaging}, version ${pom.parent.version}";
+                        nexusArtifactUploader(
+                            nexusVersion: NEXUS_VERSION,
+                            protocol: NEXUS_PROTOCOL,
+                            nexusUrl: NEXUS_URL,
+                            groupId: pom.groupId,
+                            version: pom.parent.version,
+                            repository: NEXUS_REPOSITORY,
+                            credentialsId: NEXUS_CREDENTIAL_ID,
+                            artifacts: [
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: artifactPath,
+                                type: pom.packaging],
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: "pom.xml",
+                                type: "pom"]
+                            ]
+                        );
+                    } else {
+                        error "*** File: ${artifactPath}, could not be found";
+                    }
+                }
+            }
+        }		
+		
     }
 }
