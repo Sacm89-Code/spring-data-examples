@@ -27,7 +27,7 @@ pipeline {
        	stage('Build') {
         	steps {
 			
-				def testArray = ["web/example/pom.xml", "web/projection/pom.xml", "web/querydsl/pom.xml"] as String[]
+				List testArray = ["web/example/pom.xml", "web/projection/pom.xml", "web/querydsl/pom.xml"]
 				
 				withMaven (maven: 'maven-3.6.3') {
 					testArray..each { i ->
