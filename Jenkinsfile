@@ -7,7 +7,9 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
+				echo '---------------------------------
 				echo cursofile.setup_url()
+				echo '---------------------------------
                 //git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'web'
             }
         } 
