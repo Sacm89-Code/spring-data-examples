@@ -1,7 +1,5 @@
 #!/usr/bin/env groovy
-libraries {
-     lib('spring-data-examples')
- }
+@Library('spring-data-examples')_
 
 pipeline {
     agent any
