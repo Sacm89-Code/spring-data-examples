@@ -10,16 +10,6 @@ def call(config) {
 		agent any
 		
 		stages {
-			/*stage('Test Stage') {                       
-				  steps {                       
-					  script {                       
-						  timeout(time: 5, unit: 'MINUTES') {                       
-							  input 'Pipeline Executing!'                       
-						  }                      
-						  println "Pipeline ejecutado!"                       
-					  }                      
-				  }                      
-			}*/
 			
 			stage('Setup') {
 				steps {
@@ -27,37 +17,42 @@ def call(config) {
 						println "----------------------------------" 
 						configF = readYaml (file: config)
 						giturl = configF.setup.setup_url 
-						println "URL GIT" + giturl
+						println "URL GIT: " + giturl
 						gitbranch = configF.setup.setup_branch						  
-						println "RAMA GIT" + gitbranch
+						println "RAMA GIT: " + gitbranch
 						println "----------------------------------"        
 						
-						//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
 						git url: giturl, branch: gitbranch
 					}
 				}
 			}
 		
 			// Compilamos el proyecto y almacenamos los test unitarios y de integracion
-	/*     	stage('Build') {
+	     	stage('Build') {
 				steps {
+					script {
+						println "----------------------------------" 
+						configF = readYaml (file: config)
+						proyectsArray = configF.setup.proyectsArray 
+						println "Lista de arrays subproyectos: " + proyectsArray
+						println "----------------------------------"  
 				
-					List proyectsArray = ["web/example/pom.xml", "web/projection/pom.xml", "web/querydsl/pom.xml"]
-					
-					withMaven (maven: 'maven-3.6.3') {
-						for (proyect in proyectsArray) {
-							println proyect
-							sh 'mvn clean install -f ' + proyect
+						
+						withMaven (maven: 'maven-3.6.3') {
+							for (proyect in proyectsArray) {
+								println proyect
+								sh 'mvn clean install -f ' + proyect
+							}
 						}
 					}
 				}
 				
 				post {
-					always {*/
+					always {
 						//junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
-				   /* }
+				    }
 				}
-			}*/
+			}
 
 			// Lanzamos en paralelo la comprobacion de dependencias y los mutation test
 			/*stage('Mutation Test') {
