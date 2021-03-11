@@ -5,44 +5,50 @@
 }*/
 
 def call(config) {
+	
+	script {
 
-	pipeline {
-		agent any
-		
-		stages {
-			/*stage('Test Stage') {                       
-				  steps {                       
-					  script {                       
+		pipeline {
+			agent any
+			
+			stages {
+				/*stage('Test Stage') {                       
+					  steps {                      
 						  timeout(time: 5, unit: 'MINUTES') {                       
 							  input 'Pipeline Executing!'                       
 						  }                      
-						  println "Pipeline ejecutado!"                       
+						  println "Pipeline ejecutado!"                      
 					  }                      
-				  }                      
-			}*/
-			
-			stage('Setup') {
-				steps {
-					script {
-						println "----------------------------------"  
-						println "Stage Setup"
-						println config
-						def configF = readYaml (file: config)
-						configF.eachLine { 
-						   line -> println line
-						}
-						println "----------------------------------"        
-						
-						//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
-					}
-				}
-			}
-		
-			// Compilamos el proyecto y almacenamos los test unitarios y de integracion
-	/*     	stage('Build') {
-				steps {
-					script {
+				}*/
 				
+				stage('Setup') {
+					steps {
+							println "----------------------------------"  
+							println "Stage Setup"
+							println config
+							Yaml parser = new Yaml()
+							config = parser.load( new File(config).text )
+							println config.setup?.setup_url
+							println config.setup?.setup_branch
+							println config.setup?.proyectsArray
+							println config.setup?.ficheroPom
+							println config.nexus?.proyectsArray2
+							println config.nexus?.NEXUS_VERSION
+							println config.nexus?.NEXUS_PROTOCOL
+							println config.nexus?.NEXUS_URL
+							println config.nexus?.NEXUS_REPOSITORY
+							println config.nexus?.NEXUS_CREDENTIAL_ID
+							println "----------------------------------"        
+							
+							//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
+					}
+					
+				}
+			
+				// Compilamos el proyecto y almacenamos los test unitarios y de integracion
+		/*     	stage('Build') {
+					steps {
+					
 						List proyectsArray = ["web/example/pom.xml", "web/projection/pom.xml", "web/querydsl/pom.xml"]
 						
 						withMaven (maven: 'maven-3.6.3') {
@@ -52,55 +58,53 @@ def call(config) {
 							}
 						}
 					}
-				}
-				
-				post {
-					always {*/
-						//junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
-				   /* }
-				}
-			}*/
-
-			// Lanzamos en paralelo la comprobacion de dependencias y los mutation test
-			/*stage('Mutation Test') {
-				// Lanzamos los mutation test
-				
-				steps {				
-					withMaven (maven: 'maven-3.6.3') {		
-						sh 'mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml'				
+					
+					post {
+						always {*/
+							//junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
+					   /* }
 					}
-				}
-				
-			}*/
-			
-			// Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
-			/*stage('SonarQube analysis') {
-				steps {				
-					withSonarQubeEnv(credentialsId: 'sonarQubeCredenciales', installationName: 'local') {
-						withMaven (maven: 'maven-3.6.3') {
-							sh 'mvn sonar:sonar -f web/pom.xml \
-							-Dsonar.sourceEncoding=UTF-8 \
-							-Dsonar.junit.reportPaths=target/surefire-reports'
+				}*/
+
+				// Lanzamos en paralelo la comprobacion de dependencias y los mutation test
+				/*stage('Mutation Test') {
+					// Lanzamos los mutation test
+					
+					steps {				
+						withMaven (maven: 'maven-3.6.3') {		
+							sh 'mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml'				
 						}
 					}
-				}
-			}*/
-			
-			// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
-			/*stage("Quality Gate") {
-				steps {
-					timeout(time: 5, unit: 'MINUTES') {
-						// Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-						// true = set pipeline to UNSTABLE, false = don't
-						// Requires SonarQube Scanner for Jenkins 2.7+
-						waitForQualityGate abortPipeline: true
+					
+				}*/
+				
+				// Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
+				/*stage('SonarQube analysis') {
+					steps {				
+						withSonarQubeEnv(credentialsId: 'sonarQubeCredenciales', installationName: 'local') {
+							withMaven (maven: 'maven-3.6.3') {
+								sh 'mvn sonar:sonar -f web/pom.xml \
+								-Dsonar.sourceEncoding=UTF-8 \
+								-Dsonar.junit.reportPaths=target/surefire-reports'
+							}
+						}
 					}
-				}
-			} */       
-			
-			/*stage("Nexus") {
-				steps {
-					script {
+				}*/
+				
+				// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
+				/*stage("Quality Gate") {
+					steps {
+						timeout(time: 5, unit: 'MINUTES') {
+							// Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+							// true = set pipeline to UNSTABLE, false = don't
+							// Requires SonarQube Scanner for Jenkins 2.7+
+							waitForQualityGate abortPipeline: true
+						}
+					}
+				} */       
+				
+				/*stage("Nexus") {
+					steps {
 						List proyectsArray2 = ["example", "projection", "querydsl"]
 						
 						for (proyect2 in proyectsArray2) {						
@@ -135,11 +139,11 @@ def call(config) {
 								error "*** File: ${artifactPath}, could not be found";
 							}
 						}
+					
 					}
+				}*/
 				
-				}
-			}*/
-			
+			}
 		}
 	}
 }
