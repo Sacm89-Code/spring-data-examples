@@ -25,7 +25,7 @@ def call(config) {
             steps {
 				println "----------------------------------"  
 				println "Stage Setup"
-				new File(config).eachLine { 
+				new File(${config}).eachLine { 
 				   line -> println line
 				}
 				println "----------------------------------"        
