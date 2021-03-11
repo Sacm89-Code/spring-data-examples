@@ -25,11 +25,11 @@ def call(config) {
 					steps {
 							println "----------------------------------"  
 							println "Stage Setup"
-							println config
 							
-							config.keySet().each{                       
-								env."${it}" = config[it]                       
-							}    
+							println config
+							def lines = new File(config).collect {it}
+							println lines
+							
 							println "----------------------------------"        
 							
 							//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
