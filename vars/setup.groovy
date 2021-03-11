@@ -23,7 +23,7 @@ def call(config) {
 		
         stage('Setup') {
             steps {
-				println "Stage Setup " + config.setup_url    
+				println "Stage Setup " + ${config.setup_url}    
 				
                 //git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
             }
