@@ -10,7 +10,7 @@ def call(config) {
     agent any
 	
     stages {
-		stage('Test Stage') {                       
+		/*stage('Test Stage') {                       
               steps {                       
                   script {                       
                       timeout(time: 5, unit: 'MINUTES') {                       
@@ -19,7 +19,7 @@ def call(config) {
                       println "Pipeline ejecutado!"                       
                   }                      
               }                      
-        }
+        }*/
 		
         stage('Setup') {
             steps {
