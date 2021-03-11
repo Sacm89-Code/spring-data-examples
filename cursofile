@@ -1,0 +1,10 @@
+String setup_url = 'https://github.com/mirgs/spring-data-examples.git'
+String setup_branch = 'libreria'
+List proyectsArray = ["web/example/pom.xml", "web/projection/pom.xml", "web/querydsl/pom.xml"]
+String ficheroPom = web/pom.xml
+List proyectsArray2 = ["example", "projection", "querydsl"]
+String NEXUS_VERSION = "nexus3"
+String NEXUS_PROTOCOL = "http"
+String NEXUS_URL = "192.168.1.57:9084"
+String NEXUS_REPOSITORY = "springs-data-examples-web/"
+String NEXUS_CREDENTIAL_ID = "nexusCredenciales"
