@@ -1,4 +1,6 @@
 #!/usr/bin/env groovy
+@Grab('org.yaml:snakeyaml:1.17')
+import org.yaml.snakeyaml.Yaml
 
 /*def call(String name = 'human') {
     echo "Hello, ${name}."
