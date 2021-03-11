@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
 
-def call(String url, String branch) {
+def call(String name = 'human') {
     echo "Hello, ${name}."
 }

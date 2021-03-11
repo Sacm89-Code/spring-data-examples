@@ -2,29 +2,29 @@
 
 def call() {
 	
-	#Para el stage Setup
+	//Para el stage Setup
 	String setup_url() {
 		return 'https://github.com/mirgs/spring-data-examples.git'
 	}
 
 	String setup_branch() {
-		return 'web'
+		return 'libreria'
 	}
 
-	#Para stage Build
+	//Para stage Build
 	List build() {
 		List proyectsArray = ["web/example/pom.xml", "web/projection/pom.xml", "web/querydsl/pom.xml"]
 		return proyectsArray
 	}
 
 
-	#Para stage Mutation Test y SonarQube analysis
+	//Para stage Mutation Test y SonarQube analysis
 	String mutation_test_ficheroPom() {
 		String ficheroPom = web/pom.xml
 		return ficheroPom
 	}
 
-	#Para stage Nexus
+	//Para stage Nexus
 	List nexus_subProject() {
 		List proyectsArray2 = ["example", "projection", "querydsl"]
 		return proyectsArray2
