@@ -5,7 +5,7 @@
 }*/
 
 def call(config) {
-	//println config
+	println config
 
 	pipeline {
 		agent any
@@ -22,7 +22,7 @@ def call(config) {
 				  }                      
 			}*/
 			
-			stage('Setup') {
+			/*stage('Setup') {
 				steps {
 					println "----------------------------------"  
 					println "Stage Setup"
@@ -34,7 +34,7 @@ def call(config) {
 					
 					//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
 				}
-			}
+			}*/
 		
 			// Compilamos el proyecto y almacenamos los test unitarios y de integracion
 	/*     	stage('Build') {
