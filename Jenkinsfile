@@ -8,9 +8,9 @@ pipeline {
         stage('Setup') {
             steps {
 				echo '---------------------------------'
-				//println cursofile setup_url
-				echo 'holaaaaaaaaaaaaaaaaaa'
-				setup 'Miriam'
+				println cursofile setup_url
+				//echo 'holaaaaaaaaaaaaaaaaaa'
+				//setup 'Miriam'
 				echo '---------------------------------'
                 //git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
             }
