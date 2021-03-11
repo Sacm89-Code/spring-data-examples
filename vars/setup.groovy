@@ -1,6 +1,4 @@
 #!/usr/bin/env groovy
-@Grab('org.yaml:snakeyaml:1.17')
-import org.yaml.snakeyaml.Yaml
 
 /*def call(String name = 'human') {
     echo "Hello, ${name}."
@@ -28,18 +26,10 @@ def call(config) {
 							println "----------------------------------"  
 							println "Stage Setup"
 							println config
-							Yaml parser = new Yaml()
-							config = parser.load( new File(config).text )
-							println config.setup?.setup_url
-							println config.setup?.setup_branch
-							println config.setup?.proyectsArray
-							println config.setup?.ficheroPom
-							println config.nexus?.proyectsArray2
-							println config.nexus?.NEXUS_VERSION
-							println config.nexus?.NEXUS_PROTOCOL
-							println config.nexus?.NEXUS_URL
-							println config.nexus?.NEXUS_REPOSITORY
-							println config.nexus?.NEXUS_CREDENTIAL_ID
+							
+							config.keySet().each{                       
+								env."${it}" = config[it]                       
+							}    
 							println "----------------------------------"        
 							
 							//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
