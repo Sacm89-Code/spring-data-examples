@@ -27,8 +27,7 @@ def call(config) {
 						println "----------------------------------" 
 						configF = readYaml (file: config)
 						giturl = configF.setup.setup_url 
-						println "URL GIT" + giturl						  
-						println "RAMA GIT" + gitbranch
+						println "URL GIT" + giturl
 						gitbranch = configF.setup.setup_branch						  
 						println "RAMA GIT" + gitbranch
 						println "----------------------------------"        
