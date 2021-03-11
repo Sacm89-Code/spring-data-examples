@@ -5,7 +5,7 @@
 }*/
 
 def call(config) {
-	println config
+	//println config
 
 	pipeline {
 		agent any
@@ -27,9 +27,9 @@ def call(config) {
 					println "----------------------------------"  
 					println "Stage Setup"
 					//println "${config}"
-					/*new File(${config}).eachLine { 
+					config.eachLine { 
 					   line -> println line
-					}*/
+					}
 					println "----------------------------------"        
 					
 					//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
