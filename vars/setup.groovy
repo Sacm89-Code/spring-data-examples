@@ -49,7 +49,7 @@ def call(config) {
 				
 				post {
 					always {
-						//junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
+						junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
 				    }
 				}
 			}
