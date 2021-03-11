@@ -26,9 +26,12 @@ def call(config) {
 							println "----------------------------------"  
 							println "Stage Setup"
 							
-							println config
-							def lines = config.collect {it}
-							println lines
+							println config 
+							configF = readYaml file: config
+							println '************************************* '
+							println configF							
+							//def lines = configF.collect {it}
+							//println lines
 							
 							println "----------------------------------"        
 							
