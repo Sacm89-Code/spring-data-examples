@@ -5,7 +5,7 @@
 }*/
 
 def call(config) {
-	println "${config}"
+	println config
 
 	pipeline {
 		agent any
