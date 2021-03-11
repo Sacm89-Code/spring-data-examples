@@ -24,11 +24,10 @@ def call(config) {
         stage('Setup') {
             steps {
 				println "----------------------------------"  
-				println "Stage Setup"  
-				//creamos el map env                                              
-				config.keySet().each{                       
-					env."${it}" = config[it]                       
-				} 
+				println "Stage Setup"
+				new File(config).eachLine { 
+				   line -> println line
+				}
 				println "----------------------------------"        
 				
                 //git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
