@@ -24,12 +24,13 @@ def call(config) {
 			stage('Setup') {
 				steps {
 					script {
-						println "----------------------------------"  
-						println "URL GIT"
+						println "----------------------------------" 
 						configF = readYaml (file: config)
-						giturl = configF.setup.setup_url						  
-						println "RAMA GIT"
-						gitbranch = configF.setup.setup_branch
+						giturl = configF.setup.setup_url 
+						println "URL GIT" + giturl						  
+						println "RAMA GIT" + gitbranch
+						gitbranch = configF.setup.setup_branch						  
+						println "RAMA GIT" + gitbranch
 						println "----------------------------------"        
 						
 						//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
