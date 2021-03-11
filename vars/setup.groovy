@@ -23,7 +23,13 @@ def call(config) {
 		
         stage('Setup') {
             steps {
-				println "Stage Setup " + ${config.setup_url}    
+				println "----------------------------------"  
+				println "Stage Setup"  
+				//creamos el map env                                              
+				config.keySet().each{                       
+					env."${it}" = config[it]                       
+				} 
+				println "----------------------------------"        
 				
                 //git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
             }
