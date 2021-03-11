@@ -55,16 +55,24 @@ def call(config) {
 			}
 
 			// Lanzamos en paralelo la comprobacion de dependencias y los mutation test
-			/*stage('Mutation Test') {
+			stage('Mutation Test') {
 				// Lanzamos los mutation test
 				
-				steps {				
-					withMaven (maven: 'maven-3.6.3') {		
-						sh 'mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml'				
+				steps {	
+					script {
+						println "----------------------------------" 
+						configF = readYaml (file: config)
+						ficheroPom = configF.setup.ficheroPom 
+						println "Fichero pom del proyecto padre: " + ficheroPom
+						println "----------------------------------"  
+						
+						withMaven (maven: 'maven-3.6.3') {		
+							sh 'mvn org.pitest:pitest-maven:mutationCoverage -f ' + ficheroPom				
+						}
 					}
 				}
 				
-			}*/
+			}
 			
 			// Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
 			/*stage('SonarQube analysis') {
