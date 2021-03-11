@@ -25,17 +25,16 @@ def call(config) {
 				
 				stage('Setup') {
 					steps {
-							println "----------------------------------"  
-							println "Stage Setup"
-							println config
-							def configF = readYaml (file: config)
-							configF.eachLine { 
-							   line -> println line
-							}
-							println "----------------------------------"        
-							
-							//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
+						println "----------------------------------"  
+						println "Stage Setup"
+						println config
+						def configF = readYaml (file: config)
+						configF.eachLine { 
+						   line -> println line
 						}
+						println "----------------------------------"        
+						
+						//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
 					}
 				}
 			
