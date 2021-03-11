@@ -25,7 +25,7 @@ def call(config) {
 				steps {
 					println "----------------------------------"  
 					println "Stage Setup"
-					println config
+					println readFile(config)
 					/*config.eachLine { 
 					   line -> println line
 					}*/
