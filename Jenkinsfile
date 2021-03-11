@@ -1,4 +1,4 @@
 #!/usr/bin/env groovy
 @Library('spring-data-examples')_
-
-setup cursofile
+def config = new File('cursofile')
+setup config
