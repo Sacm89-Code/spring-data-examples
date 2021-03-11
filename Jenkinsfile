@@ -8,7 +8,7 @@ pipeline {
         stage('Setup') {
             steps {
 				echo '---------------------------------'
-				println cursofile.setup_url()
+				//println cursofile setup_url
 				echo 'holaaaaaaaaaaaaaaaaaa'
 				setup 'Miriam'
 				echo '---------------------------------'
