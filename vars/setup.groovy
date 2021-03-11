@@ -4,7 +4,7 @@
     echo "Hello, ${name}."
 }*/
 
-def call(config) {
+def call(File config) {
 
 	pipeline {
     agent any
@@ -25,7 +25,7 @@ def call(config) {
             steps {
 				println "----------------------------------"  
 				println "Stage Setup"
-				println ${config}
+				println "${config}"
 				/*new File(${config}).eachLine { 
 				   line -> println line
 				}*/
