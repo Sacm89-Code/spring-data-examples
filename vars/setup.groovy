@@ -27,8 +27,8 @@ def call(config) {
 							println "Stage Setup"
 							
 							println config
-							def lines = new File(config).collect {it}
-							println lines
+							//def lines = new File(config).collect {it}
+							//println lines
 							
 							println "----------------------------------"        
 							
