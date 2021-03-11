@@ -25,9 +25,10 @@ def call(config) {
             steps {
 				println "----------------------------------"  
 				println "Stage Setup"
-				new File(${config}).eachLine { 
+				println ${config}
+				/*new File(${config}).eachLine { 
 				   line -> println line
-				}
+				}*/
 				println "----------------------------------"        
 				
                 //git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
