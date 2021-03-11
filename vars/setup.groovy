@@ -5,7 +5,7 @@
 }*/
 
 def call(config) {
-	
+
 	script {
 
 		pipeline {
@@ -13,11 +13,13 @@ def call(config) {
 			
 			stages {
 				/*stage('Test Stage') {                       
-					  steps {                      
-						  timeout(time: 5, unit: 'MINUTES') {                       
-							  input 'Pipeline Executing!'                       
+					  steps {                       
+						  script {                       
+							  timeout(time: 5, unit: 'MINUTES') {                       
+								  input 'Pipeline Executing!'                       
+							  }                      
+							  println "Pipeline ejecutado!"                       
 						  }                      
-						  println "Pipeline ejecutado!"                      
 					  }                      
 				}*/
 				
@@ -25,19 +27,16 @@ def call(config) {
 					steps {
 							println "----------------------------------"  
 							println "Stage Setup"
-							
-							println config 
+							println config
 							def configF = readYaml (file: config)
-							println '************************************* '
-							println configF							
-							//def lines = configF.collect {it}
-							//println lines
-							
+							configF.eachLine { 
+							   line -> println line
+							}
 							println "----------------------------------"        
 							
 							//git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'libreria'
+						}
 					}
-					
 				}
 			
 				// Compilamos el proyecto y almacenamos los test unitarios y de integracion
