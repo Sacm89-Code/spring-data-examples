@@ -1,9 +1,5 @@
 #!/usr/bin/env groovy
 
-/*def call(String name = 'human') {
-    echo "Hello, ${name}."
-}*/
-
 def call(config) {
 
 	pipeline {
@@ -86,10 +82,15 @@ def call(config) {
 						
 						withSonarQubeEnv(credentialsId: 'sonarQubeCredenciales', installationName: 'local') {
 							withMaven (maven: 'maven-3.6.3') {
-								sh 'mvn sonar:sonar -f ' + ficheroPom + ' \
+								sh 'mvn sonar:sonar -f web/pom.xml \
 								-Dsonar.sourceEncoding=UTF-8 \
 								-Dsonar.junit.reportPaths=target/surefire-reports'
 							}
+							/*withMaven (maven: 'maven-3.6.3') {
+								sh 'mvn sonar:sonar -f ' + ficheroPom + ' \
+								-Dsonar.sourceEncoding=UTF-8 \
+								-Dsonar.junit.reportPaths=target/surefire-reports'
+							}*/
 						}
 					}
 				}
