@@ -1,5 +1,4 @@
 #!/usr/bin/env groovy
 @Library('spring-data-examples')_
-
-def config = readYaml text: 'cursofile'
+def config = readYaml (file: 'cursofile')
 setup config
