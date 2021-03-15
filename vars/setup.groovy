@@ -55,37 +55,9 @@ def call(config) {
 						println "Credenciales Nexus: " + NEXUS_CREDENTIAL_ID
 						println "----------------------------------"  
 												
-						for (proyect2 in proyectsArray2) {						
-							
-							pom = readMavenPom file: "web/" + proyect2 + "/pom.xml";
-							filesByGlob = findFiles(glob: "web/" + proyect2 + "/target/*.${pom.packaging}");
-							echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
-							artifactPath = filesByGlob[0].path;
-							artifactExists = fileExists artifactPath;
-							if(artifactExists) {
-								echo "*** File: ${artifactPath}, group: ${pom.parent.groupId}, packaging: ${pom.packaging}, version ${pom.parent.version}";
-								nexusArtifactUploader(
-									nexusVersion: NEXUS_VERSION,
-									protocol: NEXUS_PROTOCOL,
-									nexusUrl: NEXUS_URL,
-									groupId: pom.groupId,
-									version: pom.parent.version,
-									repository: NEXUS_REPOSITORY,
-									credentialsId: NEXUS_CREDENTIAL_ID,
-									artifacts: [
-										[artifactId: pom.artifactId,
-										classifier: '',
-										file: artifactPath,
-										type: pom.packaging],
-										[artifactId: pom.artifactId,
-										classifier: '',
-										file: "pom.xml",
-										type: "pom"]
-									]
-								);
-							} else {
-								error "*** File: ${artifactPath}, could not be found";
-							}
+						sh 'docker push 127.0.0.1:9084/repository/' + NEXUS_REPOSITORY + 'spring-data-examples:2.0-SNAPSHOT'
+						
+						
 						}
 					}
 				
