@@ -1,5 +1,5 @@
 # the first stage of our build will use a maven 3.6.1 parent image
-FROM maven:3.3-jdk-8
+FROM maven:3.6.3-jdk-8
 
 # copy the pom and src code to the container
 COPY ./ ./
