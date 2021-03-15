@@ -30,16 +30,10 @@ def call(config) {
 		
 			// Compilamos el proyecto y almacenamos los test unitarios y de integracion
 	     	stage('Build-Dockerfile') {
-				steps {			
-						
-					//withMaven (maven: 'maven-3.6.3') {
-					
-					
-							sh 'docker build -t spring-data-examples:2.0-SNAPSHOT .'
-							//sh 'docker build .'
-							
-							
-					//}
+				steps {						
+					withMaven (maven: 'maven-3.6.3') {
+						sh 'docker build -t spring-data-examples:2.0-SNAPSHOT .'
+					}
 				}
 			}
 			
