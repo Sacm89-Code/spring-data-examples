@@ -55,7 +55,7 @@ def call(config) {
 						println "Credenciales Nexus: " + NEXUS_CREDENTIAL_ID
 						println "----------------------------------"  					
 					
-						nexusPublisher (
+						/*nexusPublisher (
 							nexusVersion: NEXUS_VERSION,
 							protocol: NEXUS_PROTOCOL,
 							nexusUrl: NEXUS_URL,
@@ -68,7 +68,25 @@ def call(config) {
 								classifier: '',
 								file: 'spring-data-examples']
 							]
-						);    
+						);*/
+						
+						nexusPublisher nexusInstanceId: 'nexus_local',
+						nexusRepositoryId: 'spring-data-example-dockerfile', 
+						packages: [
+							[$class: 'MavenPackage', 
+							mavenAssetList: [
+								[classifier: '', 
+								extension: 'jar', 
+								filePath: 'spring-data-examples']
+							], 
+							mavenCoordinate: 
+								[artifactId: 'image_docker', 
+								groupId: 'image_docker', 
+								packaging: 'jar', 
+								version: '2.0-SNAPSHOT']
+							]
+						], 
+						tagName: '2.0-SNAPSHOT'   
 
 					}
 				
