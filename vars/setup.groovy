@@ -4,7 +4,7 @@ def call(config) {
 
 	pipeline {
 		agent { 
-			dockerfile true 
+			Dockerfile true 
 		}
 		
 		stages {
@@ -27,9 +27,9 @@ def call(config) {
 		
 			// Compilamos el proyecto y almacenamos los test unitarios y de integracion
 	     	stage('Build-Dockerfile') {
-				//steps {
+				steps {
 					docker build -t spring-data-examples .
-				//}
+				}
 			}
 			
 			stage("Nexus") {
