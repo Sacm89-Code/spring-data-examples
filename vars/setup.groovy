@@ -3,7 +3,9 @@
 def call(config) {
 
 	pipeline {
-		agent any
+		agent { 
+			dockerfile true 
+		}
 		
 		stages {
 			
