@@ -53,28 +53,15 @@ def call(config) {
 						println "Reporitorio Nexus: " + NEXUS_REPOSITORY
 						NEXUS_CREDENTIAL_ID = configF.nexus.NEXUS_CREDENTIAL_ID
 						println "Credenciales Nexus: " + NEXUS_CREDENTIAL_ID
-						println "----------------------------------"  					
-					
-						nexusPublisher (
-							nexusVersion: NEXUS_VERSION,
-							protocol: NEXUS_PROTOCOL,
-							nexusUrl: NEXUS_URL,
-							groupId: '',
-							version: '',
-							repository: NEXUS_REPOSITORY,
-							credentialsId: NEXUS_CREDENTIAL_ID,
-							packages: [
-								[artifactId: '2.0-SNAPSHOT',
-								classifier: '',
-								file: 'spring-data-examples',
-								type: 'jar']
-							]
-						);
+						println "----------------------------------" 
+						
+						
 						
 						//nexusPublisher nexusInstanceId: 'nexus_local', nexusRepositoryId: 'spring-data-example-dockerfile', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'spring-data-examples']], mavenCoordinate: [artifactId: 'spring-data-examples', groupId: 'org.springframework.data.examples', packaging: 'jar', version: '2.0.0.BUILD-SNAPSHOT']]], tagName: '2.0-SNAPSHOT' 
 						//nexusPublisher nexusInstanceId: 'nexus_local', nexusRepositoryId: 'spring-data-example-dockerfile', packages: []
 						
-						//sh 'docker push ' + NEXUS_URL + '/repository/' + NEXUS_REPOSITORY  + 'spring-data-examples:2.0-SNAPSHOT'
+						sh 'docker login -u admin -p sinensia1 http://192.168.1.57:9084/repository/spring-data-example-dockerfile/'
+						sh 'docker push ' + NEXUS_URL + '/repository/' + NEXUS_REPOSITORY  + 'spring-data-examples:2.0-SNAPSHOT'
 						//sh 'docker push ' + NEXUS_URL + '/' + NEXUS_REPOSITORY  + 'spring-data-examples:2.0-SNAPSHOT'
 						
 					}
