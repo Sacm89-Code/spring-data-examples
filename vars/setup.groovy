@@ -5,6 +5,10 @@ def call(config) {
 	pipeline {
 		agent any
 		
+		tools {
+			docker 'docker-image'
+		}
+		
 		stages {
 			
 			stage('Setup') {
@@ -30,7 +34,7 @@ def call(config) {
 					//withMaven (maven: 'maven-3.6.3') {
 					
 					
-							sh 'sudo docker build -t spring-data-examples:2.0-SNAPSHOT .'
+							sh 'docker build -t spring-data-examples:2.0-SNAPSHOT .'
 							
 							
 					//}
