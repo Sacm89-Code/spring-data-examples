@@ -55,7 +55,7 @@ def call(config) {
 						println "Credenciales Nexus: " + NEXUS_CREDENTIAL_ID
 						println "----------------------------------"  
 												
-						sh 'docker push 127.0.0.1:9084/repository/' + NEXUS_REPOSITORY + 'spring-data-examples:2.0-SNAPSHOT'
+						sh 'docker push '+ NEXUS_URL + '/repository/' + NEXUS_REPOSITORY + 'spring-data-examples:2.0-SNAPSHOT'
 						
 						
 						}
