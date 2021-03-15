@@ -3,11 +3,12 @@
 def call(config) {
 
 	pipeline {
-		agent any
+		//agent any
+		agent { dockerfile true }
 		
-		tools {
+		/*tools {
 			docker 'docker-image'
-		}
+		}*/
 		
 		stages {
 			
