@@ -2,7 +2,7 @@
 FROM maven:3.3-jdk-8
 
 # copy the pom and src code to the container
-COPY ./ ./
+COPY web image
 
 # package our application code
 RUN mvn clean install -f web/example/pom.xml
