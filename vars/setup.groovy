@@ -30,7 +30,7 @@ def call(config) {
 					//withMaven (maven: 'maven-3.6.3') {
 					
 					
-							docker build -t spring-data-examples .
+							sh 'docker build -t spring-data-examples .'
 							
 							
 					//}
