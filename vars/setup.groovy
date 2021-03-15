@@ -59,8 +59,8 @@ def call(config) {
 							nexusVersion: NEXUS_VERSION,
 							protocol: NEXUS_PROTOCOL,
 							nexusUrl: NEXUS_URL,
-							groupId: pom.groupId,
-							version: pom.parent.version,
+							groupId: '',
+							version: '',
 							repository: NEXUS_REPOSITORY,
 							credentialsId: NEXUS_CREDENTIAL_ID,
 							packages: [
