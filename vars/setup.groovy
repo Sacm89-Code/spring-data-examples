@@ -3,9 +3,7 @@
 def call(config) {
 
 	pipeline {
-		agent { 
-			Dockerfile true 
-		}
+		agent any
 		
 		stages {
 			
@@ -27,8 +25,15 @@ def call(config) {
 		
 			// Compilamos el proyecto y almacenamos los test unitarios y de integracion
 	     	stage('Build-Dockerfile') {
-				steps {
-					docker build -t spring-data-examples .
+				steps {			
+						
+					//withMaven (maven: 'maven-3.6.3') {
+					
+					
+							docker build -t spring-data-examples:2.0-SNAPSHOT .
+							
+							
+					//}
 				}
 			}
 			
