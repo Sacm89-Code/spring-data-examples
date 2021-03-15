@@ -24,89 +24,18 @@ def call(config) {
 			}
 		
 			// Compilamos el proyecto y almacenamos los test unitarios y de integracion
-	     	stage('Build') {
-				steps {
-					script {
-						println "----------------------------------" 
-						configF = readYaml (file: config)
-						proyectsArray = configF.setup.proyectsArray 
-						println "Lista de arrays subproyectos: " + proyectsArray
-						println "----------------------------------"  
-				
+	     	stage('Build-Dockerfile') {
+				steps {			
 						
-						withMaven (maven: 'maven-3.6.3') {
-							for (proyect in proyectsArray) {
-								println proyect
-								sh 'mvn clean install -f ' + proyect
-							}
-						}
-					}
-				}
-				
-				post {
-					always {
-						junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
-				    }
+					//withMaven (maven: 'maven-3.6.3') {
+					
+					
+							sh 'docker build -t spring-data-examples:2.0-SNAPSHOT .'
+							
+							
+					//}
 				}
 			}
-
-			// Lanzamos en paralelo la comprobacion de dependencias y los mutation test
-			stage('Mutation Test') {
-				// Lanzamos los mutation test
-				
-				steps {	
-					script {
-						println "----------------------------------" 
-						configF = readYaml (file: config)
-						ficheroPom = configF.setup.ficheroPom 
-						println "Fichero pom del proyecto padre: " + ficheroPom
-						println "----------------------------------"  
-						
-						withMaven (maven: 'maven-3.6.3') {		
-							sh 'mvn org.pitest:pitest-maven:mutationCoverage -f ' + ficheroPom				
-						}
-					}
-				}
-				
-			}
-			
-			// Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
-			stage('SonarQube analysis') {
-				steps {	
-					script {
-						println "----------------------------------" 
-						configF = readYaml (file: config)
-						ficheroPom = configF.setup.ficheroPom 
-						println "Fichero pom del proyecto padre: " + ficheroPom
-						println "----------------------------------"  
-						
-						withSonarQubeEnv(credentialsId: 'sonarQubeCredenciales', installationName: 'local') {
-							/*withMaven (maven: 'maven-3.6.3') {
-								sh 'mvn sonar:sonar -f web/pom.xml \
-								-Dsonar.sourceEncoding=UTF-8 \
-								-Dsonar.junit.reportPaths=target/surefire-reports'
-							}*/
-							withMaven (maven: 'maven-3.6.3') {
-								sh 'mvn sonar:sonar -f ' + ficheroPom + ' \
-								-Dsonar.sourceEncoding=UTF-8 \
-								-Dsonar.junit.reportPaths=target/surefire-reports'
-							}
-						}
-					}
-				}
-			}
-			
-			// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
-			stage("Quality Gate") {
-				steps {
-					timeout(time: 5, unit: 'MINUTES') {
-						// Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-						// true = set pipeline to UNSTABLE, false = don't
-						// Requires SonarQube Scanner for Jenkins 2.7+
-						waitForQualityGate abortPipeline: true
-					}
-				}
-			}       
 			
 			stage("Nexus") {
 				steps {
@@ -128,7 +57,7 @@ def call(config) {
 						println "Credenciales Nexus: " + NEXUS_CREDENTIAL_ID
 						println "----------------------------------"  
 												
-						for (proyect2 in proyectsArray2) {						
+						/*for (proyect2 in proyectsArray2) {						
 							
 							pom = readMavenPom file: "web/" + proyect2 + "/pom.xml";
 							filesByGlob = findFiles(glob: "web/" + proyect2 + "/target/*.${pom.packaging}");
@@ -159,7 +88,7 @@ def call(config) {
 							} else {
 								error "*** File: ${artifactPath}, could not be found";
 							}
-						}
+						}*/
 					}
 				
 				}

@@ -1,6 +1,6 @@
 setup:
     setup_url: 'https://github.com/mirgs/spring-data-examples.git'
-    setup_branch: 'libreria'
+    setup_branch: 'image'
     proyectsArray: ["web/example/pom.xml", "web/projection/pom.xml", "web/querydsl/pom.xml"]
     ficheroPom: 'web/pom.xml'
 nexus:
@@ -8,6 +8,6 @@ nexus:
     NEXUS_VERSION: "nexus3"
     NEXUS_PROTOCOL: "http"
     NEXUS_URL: "192.168.1.57:9084"
-    NEXUS_REPOSITORY: "springs-data-examples-web/"
+    NEXUS_REPOSITORY: "spring-data-example-dockerfile/"
     NEXUS_CREDENTIAL_ID: "nexusCredenciales"
     NEXUS_CREDENTIAL_ID: "nexusCredenciales"
