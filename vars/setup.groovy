@@ -67,7 +67,7 @@ def call(config) {
 								[artifactId: '2.0-SNAPSHOT',
 								classifier: '',
 								file: 'spring-data-examples',
-								type: 'jar]
+								type: 'jar']
 							]
 						);
 						
