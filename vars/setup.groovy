@@ -71,17 +71,17 @@ def call(config) {
 						);*/
 						
 						nexusPublisher nexusInstanceId: 'nexus_local',
-						nexusRepositoryId: 'spring-data-example-dockerfile', 
+						nexusRepositoryId: 'spring-data-example-dockerfile/', 
 						packages: [
 							[$class: 'MavenPackage', 
 							mavenAssetList: [
 								[classifier: '', 
-								extension: 'jar', 
+								extension: '', 
 								filePath: 'spring-data-examples']
 							], 
 							mavenCoordinate: 
 								[artifactId: 'image_docker', 
-								groupId: 'image_docker', 
+								groupId: 'org.apache', 
 								packaging: 'jar', 
 								version: '2.0-SNAPSHOT']
 							]
