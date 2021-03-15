@@ -70,8 +70,9 @@ def call(config) {
 							]
 						);*/
 						
-						nexusPublisher nexusInstanceId: 'nexus_local', nexusRepositoryId: 'spring-data-example-dockerfile', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'spring-data-examples']], mavenCoordinate: [artifactId: 'spring-data-examples', groupId: 'org.springframework.data.examples', packaging: 'jar', version: '2.0.0.BUILD-SNAPSHOT']]], tagName: '2.0-SNAPSHOT' 
-
+						//nexusPublisher nexusInstanceId: 'nexus_local', nexusRepositoryId: 'spring-data-example-dockerfile', packages: [[$class: 'MavenPackage', mavenAssetList: [[classifier: '', extension: '', filePath: 'spring-data-examples']], mavenCoordinate: [artifactId: 'spring-data-examples', groupId: 'org.springframework.data.examples', packaging: 'jar', version: '2.0.0.BUILD-SNAPSHOT']]], tagName: '2.0-SNAPSHOT' 
+						nexusPublisher nexusInstanceId: 'nexus_local', nexusRepositoryId: 'spring-data-example-dockerfile', packages: []
+						
 					}
 				
 				}
