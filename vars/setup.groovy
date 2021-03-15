@@ -53,13 +53,25 @@ def call(config) {
 						println "Reporitorio Nexus: " + NEXUS_REPOSITORY
 						NEXUS_CREDENTIAL_ID = configF.nexus.NEXUS_CREDENTIAL_ID
 						println "Credenciales Nexus: " + NEXUS_CREDENTIAL_ID
-						println "----------------------------------"  
-												
-						sh 'docker push '+ NEXUS_URL + '/repository/' + NEXUS_REPOSITORY + 'spring-data-examples:2.0-SNAPSHOT'
-						
-						
-						}
+						println "----------------------------------"  					
+					
+						nexusPublisher (
+							nexusVersion: NEXUS_VERSION,
+							protocol: NEXUS_PROTOCOL,
+							nexusUrl: NEXUS_URL,
+							groupId: pom.groupId,
+							version: pom.parent.version,
+							repository: NEXUS_REPOSITORY,
+							credentialsId: NEXUS_CREDENTIAL_ID,
+							packages: [
+								[artifactId: '2.0-SNAPSHOT',
+								classifier: '',
+								file: 'spring-data-examples']
+							]
+						);
 					}
+				
+				}
 			}
 			
 		}
