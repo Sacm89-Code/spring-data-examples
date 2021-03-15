@@ -3,8 +3,8 @@
 def call(config) {
 
 	pipeline {
-		//agent any
-		agent { dockerfile true }
+		agent any
+		//agent { dockerfile true }
 		
 		/*tools {
 			docker 'docker-image'
@@ -35,8 +35,8 @@ def call(config) {
 					//withMaven (maven: 'maven-3.6.3') {
 					
 					
-							//sh 'docker build -t spring-data-examples:2.0-SNAPSHOT .'
-							sh 'docker build .'
+							sh 'docker build -t spring-data-examples:2.0-SNAPSHOT .'
+							//sh 'docker build .'
 							
 							
 					//}
