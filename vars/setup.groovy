@@ -68,7 +68,8 @@ def call(config) {
 								classifier: '',
 								file: 'spring-data-examples']
 							]
-						);
+						);    
+
 					}
 				
 				}
