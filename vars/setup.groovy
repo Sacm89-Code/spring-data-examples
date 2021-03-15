@@ -60,8 +60,6 @@ def call(config) {
 						
 						}
 					}
-				
-				}
 			}
 			
 		}
