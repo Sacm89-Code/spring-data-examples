@@ -30,10 +30,8 @@ def call(config) {
 		
 			// Compilamos el proyecto y almacenamos los test unitarios y de integracion
 	     	stage('Build-Dockerfile') {
-				steps {						
-					//withMaven (maven: 'maven-3.6.3') {
+				steps {
 						sh 'docker build -t spring-data-examples:2.0-SNAPSHOT .'
-					//}
 				}
 			}
 			
@@ -57,7 +55,7 @@ def call(config) {
 						println "Credenciales Nexus: " + NEXUS_CREDENTIAL_ID
 						println "----------------------------------"  
 												
-						/*for (proyect2 in proyectsArray2) {						
+						for (proyect2 in proyectsArray2) {						
 							
 							pom = readMavenPom file: "web/" + proyect2 + "/pom.xml";
 							filesByGlob = findFiles(glob: "web/" + proyect2 + "/target/*.${pom.packaging}");
@@ -88,7 +86,7 @@ def call(config) {
 							} else {
 								error "*** File: ${artifactPath}, could not be found";
 							}
-						}*/
+						}
 					}
 				
 				}
