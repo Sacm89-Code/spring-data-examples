@@ -62,9 +62,9 @@ def call(config) {
 						
 						//sh 'docker login -u admin -p sinensia1 http://192.168.1.57:9084/repository/spring-data-example-dockerfile/'
 						//sh 'docker push ' + NEXUS_URL + '/repository/' + NEXUS_REPOSITORY  + 'spring-data-examples:2.0-SNAPSHOT'
-						//sh 'docker push ' + NEXUS_URL + '/' + NEXUS_REPOSITORY  + 'spring-data-examples:2.0-SNAPSHOT'
-						
-						sh 'docker push 192.168.1.57:9084/repository/spring-data-example-dockerfile/spring-data-examples'
+						//sh 'docker push ' + NEXUS_URL + '/' + NEXUS_REPOSITORY  + 'spring-data-examples:2.0-SNAPSHOT'						
+						//sh 'docker push 192.168.1.57:9084/repository/spring-data-example-dockerfile/spring-data-examples'						
+						sh 'docker push 192.168.1.57:9084/spring-data-examples'
 						
 					}
 				
