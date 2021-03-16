@@ -67,7 +67,7 @@ def call(config) {
 						sh 'docker image ls'
 						//sh 'docker tag spring-data-examples:2.0-SNAPSHOT 192.168.1.57:9084/spring-data-examples:2.0-SNAPSHOT'						
 						//sh 'docker push 192.168.1.57:9084/spring-data-examples:2.0-SNAPSHOT'						
-						sh 'docker push 192.168.1.57:9084/repository/spring-data-example-dockerfile/spring-data-examples:2.0-SNAPSHOT'
+						sh 'docker push 192.168.1.57:9084/spring-data-examples:2.0-SNAPSHOT'
 						
 					}
 				
