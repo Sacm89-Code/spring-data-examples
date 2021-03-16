@@ -70,9 +70,10 @@ def call(config) {
 						//sh 'docker push 192.168.1.57:9084/spring-data-examples:2.0-SNAPSHOT'
 						//sh 'docker build spring-data-examples:2.0-SNAPSHOT'
 						
-						withRegistry('192.168.1.57:9084/repository/spring-data-example-dockerfile/', NEXUS_CREDENTIAL_ID) {
+						withDockerRegistry(credentialsId: 'nexusCredenciales', url: '192.168.1.57:9084/repository/spring-data-example-dockerfile/') {
 							sh 'docker push spring-data-examples:2.0-SNAPSHOT'
 						}
+	
 					}
 				
 				}
