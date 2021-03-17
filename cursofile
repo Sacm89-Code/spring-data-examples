@@ -6,4 +6,4 @@ nexus:
     NEXUS_URL: "192.168.1.57:8083"
     NEXUS_REPOSITORY: "/repository/spring-data-example-dockerfile/"
     NEXUS_CREDENTIAL_ID: "nexusCredenciales"
-	NEXUS_IMAGE: "spring-data-examples:2.0-SNAPSHOT"
+    NEXUS_IMAGE: "spring-data-examples:2.0-SNAPSHOT"
