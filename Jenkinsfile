@@ -79,7 +79,7 @@ pipeline {
 						withMaven (maven: 'maven-3.6.3') {
 							for (proyect in proyectsArray) {
 								println proyect
-								sh 'clean deploy -f ' + proyect
+								sh 'mvn clean deploy -f ' + proyect
 							}
 						}
 					}
