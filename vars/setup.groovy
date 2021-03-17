@@ -62,11 +62,11 @@ def call(config) {
 						sh 'docker image ls'
 						
 						withDockerRegistry(credentialsId: 'nexusCredenciales', url: 'http://192.168.1.57:8083') {
-							//docker tag spring-data-examples:2.0-SNAPSHOT 192.168.1.57:8083/repository/spring-data-example-dockerfile/spring-data-examples:2.0-SNAPSHOT'
+							//docker tag spring-data-examples:2.0-SNAPSHOT 192.168.1.57:8083/repository/spring-data-example-dockerfile/spring-data-examples:2.0-SNAPSHOT							  
 							sh 'docker tag ' + NEXUS_IMAGE + ' ' + NEXUS_URL + NEXUS_REPOSITORY + NEXUS_IMAGE
 							
 							//docker push 192.168.1.57:8083/repository/spring-data-example-dockerfile/spring-data-examples:2.0-SNAPSHOT
-							sh 'docker push ' + NEXUS_URL + NEXUS_URL + NEXUS_REPOSITORY + NEXUS_IMAGE
+							sh 'docker push ' + NEXUS_URL + '/' + NEXUS_URL + NEXUS_REPOSITORY + NEXUS_IMAGE
 						}
 	
 					}
