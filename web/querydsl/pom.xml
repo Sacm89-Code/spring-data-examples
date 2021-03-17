@@ -17,6 +17,13 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
         <jacoco.version>0.8.2</jacoco.version>			
 	</properties>
+	
+	<distributionManagement>
+	   <snapshotRepository>
+	      <id>nexus</id>
+		  <url>http://192.168.1.57:9084/repository/spring-data-maven/</url>
+	   </snapshotRepository>
+	</distributionManagement>
 
 	<dependencies>
 
@@ -154,6 +161,25 @@
                     </execution>
                 </executions>
             </plugin>
+            
+            <plugin>
+			   <groupId>org.sonatype.plugins</groupId>
+			   <artifactId>nexus-staging-maven-plugin</artifactId>
+			   <version>1.5.1</version>
+			   <executions>
+			      <execution>
+			         <id>default-deploy</id>
+			         <phase>deploy</phase>
+			         <goals>
+			            <goal>deploy</goal>
+			         </goals>
+			      </execution>
+			   </executions>
+			   <configuration>
+			      <serverId>nexus</serverId>
+			      <nexusUrl>http://192.168.1.57:9084/repository/</nexusUrl>
+			   </configuration>
+			</plugin>
             
 		</plugins>
 	</build>

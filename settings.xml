@@ -65,4 +65,12 @@
 			</repositories>
 		</profile>
 	</profiles>
+	
+	<servers>
+	   <server>
+		  <id>nexus</id>
+		  <username>admin</username>
+		  <password>sinensia1</password>
+	   </server>
+	</servers>
 </settings>
