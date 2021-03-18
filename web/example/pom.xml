@@ -111,6 +111,9 @@
 			      </execution>
 			   </executions>
 			   <configuration>
+			      <groupId>${groupId}</groupId>
+                  <artifactId>${artifactId}</artifactId>
+                  <version>${version}</version>
 			      <serverId>nexus</serverId>
 			      <nexusUrl>http://192.168.1.57:9084/repository/</nexusUrl>
 <!-- 			      <skipStaging>true</skipStaging> -->
