@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'master'
+                git url:'https://github.com/Sacm89-Code/spring-data-examples.git', branch: 'master'
             }
         } 
 		
