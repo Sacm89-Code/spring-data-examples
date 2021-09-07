@@ -13,18 +13,16 @@ pipeline {
         	steps {
 				withMaven (maven: 'maven-3.6.3') {
 					sh 'mvn clean install -f web/pom.xml'
-					sh 'mvn clean install -f elasticsearch/pom.xml'
-					sh 'mvn clean install -f mongodb/pom.xml'
-					sh 'mvn clean install -f rest/pom.xml'
+					sh 'mvn clean install -f web/example/pom.xml'
+					sh 'mvn clean install -f web/projection/pom.xml'
+					sh 'mvn clean install -f web/querydsl/pom.xml'
 				}
     		}
 			
 			post {
                 always {
-                    junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
-					junit 'elasticsearch/example/target/surefire-reports/*.xml, elasticsearch/reactive/target/surefire-reports/*.xml, elasticsearch/rest/target/surefire-reports/*.xml'
-                    junit 'mongodb/example/target/surefire-reports/*.xml, mongodb/projection/target/surefire-reports/*.xml, mongodb/querydsl/target/surefire-reports/*.xml'
-                    junit 'rest/example/target/surefire-reports/*.xml, rest/headers/target/surefire-reports/*.xml, rest/multi-store/target/surefire-reports/*.xml, rest/projections/target/surefire-reports/*.xml, rest/security/target/surefire-reports/*.xml, rest/starbucks/target/surefire-reports/*.xml, rest/uri-customization/target/surefire-reports/*.xml'
+                    //junit 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
+                    junit allowEmptyResults: true, testResults: 'web/example/target/surefire-reports/*.xml, web/projection/target/surefire-reports/*.xml, web/querydsl/target/surefire-reports/*.xml'
                 }
             }
         }
@@ -36,9 +34,6 @@ pipeline {
 			steps {				
 				withMaven (maven: 'maven-3.6.3') {		
 					sh 'mvn org.pitest:pitest-maven:mutationCoverage -f web/pom.xml'	
-					sh 'mvn org.pitest:pitest-maven:mutationCoverage -f elasticsearch/pom.xml'
-					sh 'mvn org.pitest:pitest-maven:mutationCoverage -f mongodb/pom.xml'
-					sh 'mvn org.pitest:pitest-maven:mutationCoverage -f rest/pom.xml'				
 				}
 			}
 			
@@ -50,25 +45,8 @@ pipeline {
 		    	withSonarQubeEnv(credentialsId: 'sonarqube_token', installationName: 'sonarqube') {
 					withMaven (maven: 'maven-3.6.3') {
 						sh 'mvn sonar:sonar -f web/pom.xml \
-						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.junit.reportPaths=target/surefire-reports\
-						-Dsonar.login=admin \
-						-Dsonar.password=sinensia1'
-						sh 'mvn sonar:sonar -f elasticsearch/pom.xml \
-						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.junit.reportPaths=target/surefire-reports\
-						-Dsonar.login=admin \
-						-Dsonar.password=sinensia1'
-						sh 'mvn sonar:sonar -f mongodb/pom.xml \
-						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.junit.reportPaths=target/surefire-reports\
-						-Dsonar.login=admin \
-						-Dsonar.password=sinensia1'
-						sh 'mvn sonar:sonar -f rest/pom.xml \
-						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.junit.reportPaths=target/surefire-reports\
-						-Dsonar.login=admin \
-						-Dsonar.password=sinensia1'
+                        -Dsonar.sourceEncoding=UTF-8 \
+                        -Dsonar.junit.reportPaths=target/surefire-reports'
 					}
 				}
 			}
