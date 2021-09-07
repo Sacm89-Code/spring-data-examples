@@ -47,7 +47,7 @@ pipeline {
         // Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
         stage('SonarQube analysis') {
         	steps {
-		    	withSonarQubeEnv(credentialsId: 'sonarqube_token') {
+		    	withSonarQubeEnv(credentialsId: 'sonarqube_token', installationName: 'sonarqube') {
 					withMaven (maven: 'maven-3.6.3') {
 						sh 'mvn sonar:sonar -f web/pom.xml \
 						-Dsonar.sourceEncoding=UTF-8 \
