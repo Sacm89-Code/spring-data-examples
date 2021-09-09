@@ -9,7 +9,7 @@ pipeline {
         // Puede ser http o https
         NEXUS_PROTOCOL = "http"
         // Dónde se ejecuta tu Nexus
-        NEXUS_URL = "192.168.1.57:9084"
+        NEXUS_URL = "192.168.1.66:8081"
         // Repositorio donde subiremos el artefacto
         NEXUS_REPOSITORY = "springs-data-examples-web/"
         // Identificación de credencial de Jenkins para autenticarse en Nexus OSS
@@ -19,7 +19,7 @@ pipeline {
     stages {
         stage('Setup') {
             steps {
-                git url:'https://github.com/mirgs/spring-data-examples.git', branch: 'web'
+                git url:'https://github.com/Sacm89-Code/spring-data-examples.git', branch: 'web'
             }
         } 
 		
