@@ -60,28 +60,16 @@ pipeline {
 		
         // Analizamos con SonarQube el proyecto y pasamos los informes generados (test, cobertura, mutation)
         stage('SonarQube analysis') {
-        	steps {				
-				withSonarQubeEnv(credentialsId: 'sonarQubeCredenciales', installationName: 'local') {
+        	steps {
+		    	withSonarQubeEnv(credentialsId: 'sonarqube_token', installationName: 'sonarqube') {
 					withMaven (maven: 'maven-3.6.3') {
 						sh 'mvn sonar:sonar -f web/pom.xml \
-						-Dsonar.sourceEncoding=UTF-8 \
-						-Dsonar.junit.reportPaths=target/surefire-reports'
+                        -Dsonar.sourceEncoding=UTF-8 \
+                        -Dsonar.junit.reportPaths=target/surefire-reports'
 					}
-				}
 			}
 		}
-		
-		// Esperamos hasta que se genere el QG y fallamos o no el job dependiendo del estado del mismo
-		stage("Quality Gate") {
-            steps {
-                timeout(time: 5, unit: 'MINUTES') {
-					// Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
-					// true = set pipeline to UNSTABLE, false = don't
-                    // Requires SonarQube Scanner for Jenkins 2.7+
-                    waitForQualityGate abortPipeline: true
-                }
-            }
-        }        
+	}        
 		
 		stage("Nexus") {
 			steps {
